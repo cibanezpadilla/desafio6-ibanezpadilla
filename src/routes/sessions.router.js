@@ -24,12 +24,12 @@ router.post('/login', async (req, res) => {
     if (email === "adminCoder@coder.com" && password === "adminCod3r123"){
         const sessionInfo = {email, first_name: 'Coder', isAdmin: true}
         req.session.user = sessionInfo;
-        return res.redirect("/api/views/products")
+        return res.redirect("/home")
     }
     try {
         const user = await uManager.findUserByEmail(email)        
         if (!user){
-            return res.redirect('/api/views/signup')
+            return res.redirect('/signup')
         } 
         const isPasswordValid = password === user.password
         if(!isPasswordValid) {
@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
         } 
         const sessionInfo = { email, first_name: user.first_name, isAdmin: false };        
         req.session.user = sessionInfo;                
-        res.redirect("/api/views/products")
+        res.redirect("/home")
     }catch (error) {
         res.status(500).json({error})
     }
@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/signout', async(req, res)=>{
     req.session.destroy(()=> {       
-        res.redirect('/api/views/login')
+        res.redirect('/login')
     })
 })
 
