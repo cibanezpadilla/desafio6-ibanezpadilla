@@ -20,7 +20,12 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body    
     if (!email || !password)
-        return res.status(400).json({message: 'All fields are requiered'})    
+        return res.status(400).json({message: 'All fields are requiered'})
+    if (email === "adminCoder@coder.com" && password === "adminCod3r123"){
+        const sessionInfo = {email, first_name: 'Coder', isAdmin: true}
+        req.session.user = sessionInfo;
+        return res.redirect("/api/views/products")
+    }
     try {
         const user = await uManager.findUserByEmail(email)        
         if (!user){
@@ -29,21 +34,16 @@ router.post('/login', async (req, res) => {
         const isPasswordValid = password === user.password
         if(!isPasswordValid) {
             return res.status(401).json({message: 'Password is not valid'})
-        } //hasta aca funciona
-        const sessionInfo =
-            email === "adminCoder@coder.com" && password === "adminCod3r123"
-                ? { email, first_name: user.first_name, isAdmin: true }
-                : { email, first_name: user.first_name, isAdmin: false };        
-        console.log(req.session)
-        req.session.user = sessionInfo;
-        
-
-        /* res.status(200).json({message: 'User logged'}) */
+        } 
+        const sessionInfo = { email, first_name: user.first_name, isAdmin: false };        
+        req.session.user = sessionInfo;                
         res.redirect("/api/views/products")
     }catch (error) {
         res.status(500).json({error})
     }
 })
+
+
 
 /* router.get("/products", async (req, res) => {  
     res.render("products", {user: req.session.user});

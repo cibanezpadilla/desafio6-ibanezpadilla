@@ -16,6 +16,31 @@ body {
     font-weight: 200;
 }
 
+#login_title{
+    margin-left: 2rem;
+    margin-top: 4rem;
+    margin-bottom: 0;
+}
+
+
+#login-redirect-signup{
+    display: flex;
+    gap: 1rem;
+    margin-left: 2rem;
+    align-items: center;
+}
+
+#login-redirect-signup p{
+    font-size: 0.7rem;
+    margin-top: 0.7rem;    
+}
+
+#login-redirect-signup a{
+    font-size: 0.7rem;    
+    text-decoration: none;       
+}
+
+
 #div_form{
     padding-top: 2rem;
     padding-left: 2rem;
